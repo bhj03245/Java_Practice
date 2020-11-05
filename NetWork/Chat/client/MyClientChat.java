@@ -15,9 +15,9 @@ public class MyClientChat {
 	Scanner sc = new Scanner(System.in);
 	public MyClientChat()
 	{
-		String ServerIP = "192.168.20.70"; // ¼­¹ö IP ÁÖ¼Ò
-		int ServerPort = 10000; //¼­¹ö Æ÷Æ®
-		Socket socket = null; // ¼­¹ö¿Í ¿¬°áµÉ ¼ÒÄÏ ·¹ÆÛ·±½º
+		String ServerIP = "***"; // ì„œë²„ IP ì£¼ì†Œ
+		int ServerPort = 10000; //ì„œë²„ í¬íŠ¸
+		Socket socket = null; // ì„œë²„ì™€ ì—°ê²°ë  ì†Œì¼“ ë ˆí¼ëŸ°ìŠ¤
 		OutputStream out = null;
 		DataOutputStream dos = null;
 		InputStream in = null;
@@ -26,16 +26,16 @@ public class MyClientChat {
 		String recvMsg = null;
 		
 		try {
-			System.out.println(clock() + "¼­¹ö¿¡ ¿¬°á Áß ÀÔ´Ï´Ù");
+			System.out.println(clock() + "ì„œë²„ì— ì—°ê²° ì¤‘ ì…ë‹ˆë‹¤");
 			Thread.sleep(1000);
 			socket = new Socket(ServerIP,ServerPort);
-			System.out.println(clock() + socket.getInetAddress() + "Ã¤ÆÃ¼­¹ö¿¡ Á¢¼ÓÇÏ¿´½À´Ï´Ù");
+			System.out.println(clock() + socket.getInetAddress() + "ì±„íŒ…ì„œë²„ì— ì ‘ì†í•˜ì˜€ìŠµë‹ˆë‹¤");
 			out = socket.getOutputStream();
 			dos = new DataOutputStream(out);
 			in = socket.getInputStream();
 			dis = new DataInputStream(in);
 			Thread.sleep(1000);
-			System.out.println(clock() + "¼­¹ö¿ÍÀÇ Ã¤ÆÃÀ» ½ÃÀÛÇÕ´Ï´Ù");
+			System.out.println(clock() + "ì„œë²„ì™€ì˜ ì±„íŒ…ì„ ì‹œì‘í•©ë‹ˆë‹¤");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
@@ -49,12 +49,12 @@ public class MyClientChat {
 				recvMsg = dis.readUTF();
 				if(recvMsg.equals("exit"))
 				{
-					System.out.println("¼­¹ö(»ó´ë) : »ó´ë°¡ Ã¤ÆÃÀ» Á¾·áÇÏ¿´½À´Ï´Ù");
+					System.out.println("ì„œë²„(ìƒëŒ€) : ìƒëŒ€ê°€ ì±„íŒ…ì„ ì¢…ë£Œí•˜ì˜€ìŠµë‹ˆë‹¤");
 					break;
 				}
-				System.out.println("¼­¹ö(»ó´ë) : " + recvMsg);
+				System.out.println("ì„œë²„(ìƒëŒ€) : " + recvMsg);
 				
-				System.out.print("Å¬¶óÀÌ¾ğÆ®(³ª) : ");
+				System.out.print("í´ë¼ì´ì–¸íŠ¸(ë‚˜) : ");
 				sendMsg = sc.nextLine();
 				dos.writeUTF(sendMsg);
 				if(sendMsg.equals("exit"))break;
@@ -65,19 +65,19 @@ public class MyClientChat {
 				e.printStackTrace();
 			}
 		}
-		System.out.println(clock() + "Ã¤ÆÃ¼­¹ö¸¦ Á¾·áÇÕ´Ï´Ù");
+		System.out.println(clock() + "ì±„íŒ…ì„œë²„ë¥¼ ì¢…ë£Œí•©ë‹ˆë‹¤");
 		try {
-			dis.close(); // ¹Ş´Â ¹ÙÀÌÆ® ½ºÆ®¸² Á¾·á
-			dos.close(); // º¸³»´Â ¹ÙÀÌÆ® ½ºÆ®¸² Á¾·á
-			in.close(); //¼ÒÄÏ ½ºÆ®¸² Á¾·á
+			dis.close(); // ë°›ëŠ” ë°”ì´íŠ¸ ìŠ¤íŠ¸ë¦¼ ì¢…ë£Œ
+			dos.close(); // ë³´ë‚´ëŠ” ë°”ì´íŠ¸ ìŠ¤íŠ¸ë¦¼ ì¢…ë£Œ
+			in.close(); //ì†Œì¼“ ìŠ¤íŠ¸ë¦¼ ì¢…ë£Œ
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
 	}
 	String clock()
 	{
-		Date dtime = new Date(); //½Ã°£°´Ã¼ »ı¼º
-		String time = new SimpleDateFormat("[HH:mm:ss]").format(dtime); //½Ã°£ °ªÀ» Æ÷¸ËÇÏ¿© ¹®ÀÚ¿­·Î ÀúÀå
-		return time; // Æ÷¸ËµÈ ¹®ÀÚ¿­ ¸®ÅÏ
+		Date dtime = new Date(); //ì‹œê°„ê°ì²´ ìƒì„±
+		String time = new SimpleDateFormat("[HH:mm:ss]").format(dtime); //ì‹œê°„ ê°’ì„ í¬ë§·í•˜ì—¬ ë¬¸ìì—´ë¡œ ì €ì¥
+		return time; // í¬ë§·ëœ ë¬¸ìì—´ ë¦¬í„´
 	}
 }
