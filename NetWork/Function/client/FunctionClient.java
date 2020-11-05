@@ -16,9 +16,9 @@ public class FunctionClient {
 	Scanner sc = new Scanner(System.in);
 	public FunctionClient()
 	{
-		String ServerIP = "192.168.20.70"; // ¼­¹ö IP ÁÖ¼Ò
-		int ServerPort = 10000; //¼­¹ö Æ÷Æ®
-		Socket socket = null; // ¼­¹ö¿Í ¿¬°áµÉ ¼ÒÄÏ ·¹ÆÛ·±½º
+		String ServerIP = "***"; // ì„œë²„ IP ì£¼ì†Œ
+		int ServerPort = 10000; //ì„œë²„ í¬íŠ¸
+		Socket socket = null; // ì„œë²„ì™€ ì—°ê²°ë  ì†Œì¼“ ë ˆí¼ëŸ°ìŠ¤
 		OutputStream out = null;
 		DataOutputStream dos = null;
 		InputStream in = null;
@@ -29,16 +29,16 @@ public class FunctionClient {
 		String recvMsg = null;
 		
 		try {
-			System.out.println(clock() + "¼­¹ö¿¡ ¿¬°á Áß ÀÔ´Ï´Ù");
+			System.out.println(clock() + "ì„œë²„ì— ì—°ê²° ì¤‘ ì…ë‹ˆë‹¤");
 			Thread.sleep(1000);
 			socket = new Socket(ServerIP,ServerPort);
-			System.out.println(clock() + socket.getInetAddress() + "¿¬»ê¼­¹ö¿¡ Á¢¼ÓÇÏ¿´½À´Ï´Ù");
+			System.out.println(clock() + socket.getInetAddress() + "ì—°ì‚°ì„œë²„ì— ì ‘ì†í•˜ì˜€ìŠµë‹ˆë‹¤");
 			out = socket.getOutputStream();
 			dos = new DataOutputStream(out);
 			in = socket.getInputStream();
 			dis = new DataInputStream(in);
 			Thread.sleep(1000);
-			System.out.println(clock() + "¼­¹ö¿Í ¿¬»êÀÛ¾÷À» ½ÃÀÛÇÕ´Ï´Ù");
+			System.out.println(clock() + "ì„œë²„ì™€ ì—°ì‚°ì‘ì—…ì„ ì‹œì‘í•©ë‹ˆë‹¤");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
@@ -49,13 +49,13 @@ public class FunctionClient {
 		while(true)
 		{
 			try {
-				System.out.println("¼­¹ö¿¡°Ô ¿¬»êÀ» ÀÇ·ÚÇÒ ¼ö½ÄÀ» ÀÔ·ÂÇÏ¼¼¿ä.");
-				System.out.println("¿¬»êÀ» ÀÔ·ÂÇÒ ¶§ exitÀ» ÀÔ·ÂÇÒ ½Ã Á¾·á");
-				System.out.print("¼ıÀÚ 1 ÀÔ·Â : ");
+				System.out.println("ì„œë²„ì—ê²Œ ì—°ì‚°ì„ ì˜ë¢°í•  ìˆ˜ì‹ì„ ì…ë ¥í•˜ì„¸ìš”.");
+				System.out.println("ì—°ì‚°ì„ ì…ë ¥í•  ë•Œ exitì„ ì…ë ¥í•  ì‹œ ì¢…ë£Œ");
+				System.out.print("ìˆ«ì 1 ì…ë ¥ : ");
 				num1 = sc.nextInt();
-				System.out.print("¼ıÀÚ 2 ÀÔ·Â : ");
+				System.out.print("ìˆ«ì 2 ì…ë ¥ : ");
 				num2 = sc.nextInt();
-				System.out.print("¿¬»êÀÚ ÀÔ·Â : ");
+				System.out.print("ì—°ì‚°ì ì…ë ¥ : ");
 				op = sc.next();
 				
 				sendMsg = Integer.toString(num1) + op + Integer.toString(num2);
@@ -63,17 +63,17 @@ public class FunctionClient {
 				if(sendMsg.contains("exit"))break;
 				
 				recvMsg = dis.readUTF();
-				System.out.println("°è»ê °á°ú : " + recvMsg);				
+				System.out.println("ê³„ì‚° ê²°ê³¼ : " + recvMsg);				
 				
 			}catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		System.out.println(clock() + "¿¬»ê¼­¹ö¸¦ Á¾·áÇÕ´Ï´Ù");
+		System.out.println(clock() + "ì—°ì‚°ì„œë²„ë¥¼ ì¢…ë£Œí•©ë‹ˆë‹¤");
 		try {
-			dis.close(); // ¹Ş´Â ¹ÙÀÌÆ® ½ºÆ®¸² Á¾·á
-			dos.close(); // º¸³»´Â ¹ÙÀÌÆ® ½ºÆ®¸² Á¾·á
-			in.close(); //¼ÒÄÏ ½ºÆ®¸² Á¾·á
+			dis.close(); // ë°›ëŠ” ë°”ì´íŠ¸ ìŠ¤íŠ¸ë¦¼ ì¢…ë£Œ
+			dos.close(); // ë³´ë‚´ëŠ” ë°”ì´íŠ¸ ìŠ¤íŠ¸ë¦¼ ì¢…ë£Œ
+			in.close(); //ì†Œì¼“ ìŠ¤íŠ¸ë¦¼ ì¢…ë£Œ
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
@@ -81,8 +81,8 @@ public class FunctionClient {
 	
 	String clock()
 	{
-		Date dtime = new Date(); //½Ã°£°´Ã¼ »ı¼º
-		String time = new SimpleDateFormat("[HH:mm:ss]").format(dtime); //½Ã°£ °ªÀ» Æ÷¸ËÇÏ¿© ¹®ÀÚ¿­·Î ÀúÀå
-		return time; // Æ÷¸ËµÈ ¹®ÀÚ¿­ ¸®ÅÏ
+		Date dtime = new Date(); //ì‹œê°„ê°ì²´ ìƒì„±
+		String time = new SimpleDateFormat("[HH:mm:ss]").format(dtime); //ì‹œê°„ ê°’ì„ í¬ë§·í•˜ì—¬ ë¬¸ìì—´ë¡œ ì €ì¥
+		return time; // í¬ë§·ëœ ë¬¸ìì—´ ë¦¬í„´
 	}
 }
