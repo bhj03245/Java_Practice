@@ -17,13 +17,13 @@ public class ClientBackground {
 	
 	public void connect() {
 		try {
-			socket = new Socket("192.168.20.70", 7777);
-			System.out.println("¼­¹ö¿¡ ¿¬°áµÊ");
+			socket = new Socket("*.*.*.*", 7777); //IPì£¼ì†Œ, 
+			System.out.println("ì„œë²„ì— ì—°ê²°ë¨");
 			
 			out = new DataOutputStream(socket.getOutputStream());
 			in = new DataInputStream(socket.getInputStream());
 			out.writeUTF(nickName);
-			System.out.println("Client : ´Ğ³×ÀÓ Àü¼Û ¿Ï·á");
+			System.out.println("Client : ë‹‰ë„¤ì„ ì „ì†¡ ì™„ë£Œ");
 			
 			while(in!=null) {
 				msg = in.readUTF();
