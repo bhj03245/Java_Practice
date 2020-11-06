@@ -18,7 +18,7 @@ public class Messenger {
 		this.myPort = myPort;
 		this.otherPort = otherPort;
 		try {
-			address = InetAddress.getByName("192.168.20.70");
+			address = InetAddress.getByName("*.*.*.*"); //IP
 			socket = new DatagramSocket(myPort);
 			f = new MyFrame(address, otherPort, socket);
 		}catch(UnknownHostException e) {
