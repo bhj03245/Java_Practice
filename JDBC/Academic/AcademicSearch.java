@@ -46,20 +46,20 @@ public class AcademicSearch {
 	}
 
 	public void studentDisp() {
-		System.out.print("이름:" + name);
-		System.out.print("나이:" + age);
+		System.out.print("이름:" + name + " ");
+		System.out.print("나이:" + age + " ");
 		System.out.print("학번:" + hakbun + "\n");
 	}
 
 	public void professorDisp() {
-		System.out.print("이름:" + name);
-		System.out.print("나이:" + age);
+		System.out.print("이름:" + name + " ");
+		System.out.print("나이:" + age + " ");
 		System.out.print("과목:" + subject + "\n");
 	}
 
 	public void managerDisp() {
-		System.out.print("이름:" + name);
-		System.out.print("나이:" + age);
+		System.out.print("이름:" + name + " ");
+		System.out.print("나이:" + age + " ");
 		System.out.print("부서:" + part + "\n");
 	}
 
@@ -100,7 +100,7 @@ public class AcademicSearch {
 		} else if (gubun.equals("3")) {
 			setNameSearchManager();
 			stmt = conn.createStatement();
-			sql = "select age,irum,part from manager where irum='" + searchName + "'";
+			sql = "select age,name,part from manager where name ='" + searchName + "'";
 			rs = stmt.executeQuery(sql);
 			if (!rs.isBeforeFirst()) {
 				System.out.println("찾는관리자님이 없습니다.");
@@ -113,7 +113,8 @@ public class AcademicSearch {
 			}
 		}
 	}
-
+	
+	/* 단위 테스트용
 	public static void main(String[] args) {
 
 		AcademicSearch sea = new AcademicSearch();
@@ -127,4 +128,5 @@ public class AcademicSearch {
 		}
 
 	}
+	*/
 }

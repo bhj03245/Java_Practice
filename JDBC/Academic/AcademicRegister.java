@@ -11,7 +11,7 @@ public class AcademicRegister {
 	private String protocol;
 	public static BufferedReader input;
 	private Statement stmt;
-	private Connection conn;
+	private static Connection conn;
 	private String age1;
 	private String name;
 	private String hakbun1;
@@ -35,13 +35,13 @@ public class AcademicRegister {
 		}
 	}
 	
-	public Connection getConnection() throws SQLException{	
+	public static Connection getConnection() throws SQLException{	
 		conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE", "khbclass","dkdlxl");
 		//conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql?characterEncoding=utf8", "root", "");
 		return conn;
 	}
 	
-	public void setInput() throws IOException{
+	public String setInput() throws IOException{
 		System.out.println("==========메뉴선택===========");
 		System.out.println("1.학생");
 		System.out.println("2.교수");
@@ -50,6 +50,8 @@ public class AcademicRegister {
 		System.out.println("번호를 선택해주세요.");
 		
 		protocol = input.readLine();
+		
+		return protocol;
 	}
 	
 	public void setAge() throws IOException{
@@ -105,11 +107,11 @@ public class AcademicRegister {
 			setAge();
 			setName();
 			setPart();
-	
 			stmt = conn.createStatement();
 			age = Integer.parseInt(age1);
 			sql = "insert into manager(no,name,age,part) values(manager_no.nextval,'"+name+"',"+age+",'"+part+"')";
 			cnt = stmt.executeUpdate(sql);
+			managerDisp();
 		}
 		return protocol;
 	}
@@ -126,9 +128,9 @@ public class AcademicRegister {
 		System.out.println(cnt+"건 관리자가 등록되었습니다. ");
 	}
 	
-	/*
+	/* 단위 테스트용
 	public static void main(String[] args) {
-		Register register = new Register();
+		AcademicRegister register = new AcademicRegister();
 		try {
 			Connection conn = register.getConnection();
 			register.setInput();
@@ -140,4 +142,5 @@ public class AcademicRegister {
 		}
 	}
 	*/
+	
 }

@@ -63,7 +63,7 @@ public class AcademicDelete {
 			managerDeleteDisp();
 		}
 	}
-	
+/* 단위 테스트용
 	public static void main(String[] args) {
 		AcademicDelete del = new AcademicDelete();
 		try {
@@ -75,4 +75,5 @@ public class AcademicDelete {
 			e.printStackTrace();
 		}
 	}
+	*/
 }
