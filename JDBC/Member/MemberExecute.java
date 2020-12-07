@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,7 +20,7 @@ public class MemberExecute {
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		String protocol = null;
 		Connection conn = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = null;
 		int cnt = 0;
@@ -57,9 +58,13 @@ public class MemberExecute {
 						System.out.println("전화번호 입력: ");
 						String tel = input.readLine();
 						try {
-							stmt = conn.createStatement();
-							sql = "insert into member(id,pw,addr,tel) values('"+id+"','"+pw+"','"+addr+"','"+tel+"')";
-							cnt = stmt.executeUpdate(sql);
+							sql = "insert into member(id,pw,addr,tel) values(?,?,?,?)";
+							pstmt = conn.prepareStatement(sql);
+							pstmt.setString(1, id);
+							pstmt.setString(2, pw);
+							pstmt.setString(3, addr);
+							pstmt.setString(4, tel);
+							cnt = pstmt.executeUpdate();
 							System.out.println(cnt + "건 회원이 입력되었습니다.");
 						} catch (SQLException e) {
 							e.printStackTrace();
@@ -78,9 +83,9 @@ public class MemberExecute {
 			else if(protocol.equals("L") || protocol.equals("l")) {
 				System.out.println("회원 목록 출력");
 				try {
-					stmt = conn.createStatement();
 					sql = "SELECT id,pw,addr,tel from member";
-					rs = stmt.executeQuery(sql);
+					pstmt = conn.prepareStatement(sql);
+					rs = pstmt.executeQuery();
 					System.out.println("회원아이디 \t 회원패스워드 \t 회원주소 \t 회원전화번호");
 					while(rs.next()) {
 						String id = rs.getString("id");
@@ -100,9 +105,10 @@ public class MemberExecute {
 				System.out.println("검색할 아이디를 입력해주세요.");
 				try {
 					String searchID = input.readLine();
-					stmt = conn.createStatement();
-					sql = "select * from member where id = '"+searchID+"'";
-					rs = stmt.executeQuery(sql);
+					sql = "select * from member where id = ?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, searchID);
+					rs = pstmt.executeQuery();
 					if(!rs.isBeforeFirst()) {
 						System.out.println("찾는 아이디가 존재 하지 않습니다.");
 					}
@@ -132,9 +138,10 @@ public class MemberExecute {
 					try {
 						String result = input.readLine();
 						if(result.equals("y")||result.equals("Y")) {
-							stmt = conn.createStatement();
-							sql = "delete from member where id = '"+session+"'";
-							cnt = stmt.executeUpdate(sql);
+							sql = "delete from member where id = ?";
+							pstmt = conn.prepareStatement(sql);
+							pstmt.setString(1, session);
+							cnt = pstmt.executeUpdate();	
 							if(cnt>=1) {
 								System.out.println("회원 탈퇴되었습니다.");
 							}
@@ -163,10 +170,11 @@ public class MemberExecute {
 				else{
 					System.out.println("회원 정보 수정");
 					try {
-						stmt = conn.createStatement();
-						sql = "select * from member where id = '"+session+"'";
-						rs = stmt.executeQuery(sql);
-						
+						sql = "select * from member where id = ?";
+						pstmt = conn.prepareStatement(sql);
+						pstmt.setString(1, session);
+						rs = pstmt.executeQuery();
+							
 						if(rs!=null) {
 							while(rs.next()) {
 								System.out.println("회원아이디 \t 회원패스워드 \t 회원주소 \t 회원전화번호");
@@ -174,20 +182,35 @@ public class MemberExecute {
 							}
 						}
 						
-						System.out.println("아이디입력: ");
-						String id = input.readLine();
-						System.out.println("패스워드 입력: ");
-						String pw = input.readLine();
-						System.out.println("주소 입력: ");
-						String addr = input.readLine();
-						System.out.println("전화번호 입력: ");
-						String tel = input.readLine();
-						
-						stmt = conn.createStatement();
-						sql = "update member set id = '"+id+"', pw = '"+pw+"', addr = '"+addr+"', tel = '"+tel+"' where id = '"+session+"'";
-						cnt = stmt.executeUpdate(sql);
-						System.out.println(cnt + "건 회원이 수정되었습니다. 다시 로그인 해주세요.");
-						session = id;
+						System.out.println("정말 수정하시겠습니까? y/n ");
+						String result = input.readLine();
+						if(result.equals("y")||result.equals("Y")) {
+							System.out.println("아이디입력: ");
+							String id = input.readLine();
+							System.out.println("패스워드 입력: ");
+							String pw = input.readLine();
+							System.out.println("주소 입력: ");
+							String addr = input.readLine();
+							System.out.println("전화번호 입력: ");
+							String tel = input.readLine();
+							
+							sql = "update member set id = ?, pw = ?, addr = ?, tel = ? where id = ?";
+							pstmt.setString(1, id);
+							pstmt.setString(2, pw);
+							pstmt.setString(3, tel);
+							pstmt.setString(4, tel);
+							pstmt.setString(5, session);
+							pstmt = conn.prepareStatement(sql);
+							cnt = pstmt.executeUpdate();
+							System.out.println(cnt + "건 회원이 수정되었습니다. 다시 로그인 해주세요.");
+							session = id;
+						}
+						else if(result.equals("n")|| result.equals("N")){
+							continue;
+						}
+						else {
+							System.out.println("y와n중 하나만 입력하세요. ");
+						}
 					} catch (SQLException e) {
 						e.printStackTrace();
 					} catch(IOException e) {
@@ -209,9 +232,11 @@ public class MemberExecute {
 					System.out.println("패스워드 입력: ");
 					String loginPw = input.readLine();
 					try {
-						stmt = conn.createStatement();
-						sql = "select id from member where id = '"+loginID+"' and pw = '" + loginPw + "'" ;
-						rs = stmt.executeQuery(sql);
+						sql = "select id from member where id = ? and pw  = ?" ;
+						pstmt = conn.prepareStatement(sql);
+						pstmt.setString(1, loginID);
+						pstmt.setString(2, loginPw);
+						rs = pstmt.executeQuery();
 						if(!rs.isBeforeFirst()) {
 							System.out.println("아이디가 존재 하지 않습니다.");
 						}
@@ -223,6 +248,13 @@ public class MemberExecute {
 						}				
 					} catch (SQLException e) {
 						e.printStackTrace();
+					}finally {
+						try {
+							pstmt.close();
+							conn.close();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
